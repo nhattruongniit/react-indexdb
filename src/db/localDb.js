@@ -8,10 +8,14 @@ db.version(1).stores({
 });
 
 export const addProduct = async (name, category) => {
-  db.foods.put({
+  await db.foods.add({
     name,
     category
   })
+}
+
+export const updateProduct = async name => {
+  await db.foods.update(1, { name })
 }
 
 export const addUser = async (email, password, role) => {

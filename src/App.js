@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-import { addProduct, addUser, showProduct, showUser } from './db/localDb';
+import { addProduct, addUser, showProduct, showUser, updateProduct } from './db/localDb';
 
 function App() {
   const [foods, setFoods] = useState([]);
@@ -8,7 +8,7 @@ function App() {
   const nameRef = useRef(null);
   const categoryRef = useRef(null);
 
-  const handleAddProduct = async () => {
+  const handleAddProduct = () => {
     const name = nameRef.current.value;
     const category = categoryRef.current.value;
     if (name !== '' && category !== '') {
@@ -19,6 +19,10 @@ function App() {
     const res = await showProduct();
     setFoods([...res])
     console.log(res)
+  }
+
+  const handleUpdateProduct = () => {
+    updateProduct(nameRef.current.value)
   }
 
   return (
@@ -32,10 +36,13 @@ function App() {
         </div>
         <button type="button" onClick={handleAddProduct}>
           Add product
-      </button>
+        </button>
         <button type="button" onClick={handleShowProduct}>
           Show product
-      </button>
+        </button>
+        <button type="button" onClick={handleUpdateProduct}>
+          Update product width ID = 1
+        </button>
         <ul>
           {foods.length > 0 && foods.map(food => {
             return (
