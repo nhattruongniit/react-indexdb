@@ -1,24 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef, useState } from 'react';
+
+import { addProduct, addUser, showProduct, showUser } from './db/localDb';
 
 function App() {
+  const [foods, setFoods] = useState([]);
+
+  const nameRef = useRef(null);
+  const categoryRef = useRef(null);
+
+  const handleAddProduct = async () => {
+    const name = nameRef.current.value;
+    const category = categoryRef.current.value;
+    if (name !== '' && category !== '') {
+      addProduct(name, category);
+      addUser('test2@gmail.com', '123', 'operator')
+    }
+  }
+  const handleShowProduct = async () => {
+    // const res = await showProduct();
+    // const newData = [...res];
+    // setFoods(newData)
+    const res = await showUser();
+
+    console.log(res)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React using with indexDB</h1>
+      <div>
+        <h3>Add product</h3>
+        <div>
+          Name product: <input type="text" ref={nameRef} /> <br />
+          Category product: <input type="text" ref={categoryRef} />
+        </div>
+        <button type="button" onClick={handleAddProduct}>
+          Add product
+      </button>
+        <button type="button" onClick={handleShowProduct}>
+          Show product
+      </button>
+        <ul>
+          {foods.length > 0 && foods.map(food => {
+            return (
+              <li key={food.id}>
+                Name: {food.value.name} <br />
+              Category: {food.value.category}
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
     </div>
   );
 }
