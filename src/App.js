@@ -13,15 +13,11 @@ function App() {
     const category = categoryRef.current.value;
     if (name !== '' && category !== '') {
       addProduct(name, category);
-      addUser('test2@gmail.com', '123', 'operator')
     }
   }
   const handleShowProduct = async () => {
-    // const res = await showProduct();
-    // const newData = [...res];
-    // setFoods(newData)
-    const res = await showUser();
-
+    const res = await showProduct();
+    setFoods([...res])
     console.log(res)
   }
 
@@ -44,8 +40,8 @@ function App() {
           {foods.length > 0 && foods.map(food => {
             return (
               <li key={food.id}>
-                Name: {food.value.name} <br />
-              Category: {food.value.category}
+                Name: {food.name} <br />
+              Category: {food.category}
               </li>
             )
           })}
